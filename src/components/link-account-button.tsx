@@ -9,7 +9,7 @@ const LinkAccountButton = () => {
     <Button
       onClick={async () => {
         const authUrl = await getAurinkoAuthUrl("Google");
-        console.log("authUrl", authUrl);
+        window.location.href = authUrl;
       }}
     >
       Link Account
