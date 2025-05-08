@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AccountSwitcher from "./account-switcher";
 import Sidebar from "./sidebar";
+import ThreadList from "./thread-list";
 
 type Props = {
   defaultLayout: number[] | undefined;
@@ -95,8 +96,12 @@ const Mail = ({
             <Separator />
             {/* Search Bar */}
             Search Bar
-            <TabsContent value="inbox">inbox</TabsContent>
-            <TabsContent value="done">done</TabsContent>
+            <TabsContent value="inbox">
+              <ThreadList />
+            </TabsContent>
+            <TabsContent value="done">
+              <ThreadList />
+            </TabsContent>
           </Tabs>
         </ResizablePanel>
 
