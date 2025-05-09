@@ -69,7 +69,7 @@ const ThreadDisplay = () => {
 
       {thread ? (
         <>
-          <div className="flex flex-1 flex-col overflow-scroll">
+          <div className="no-scrollbar flex flex-1 flex-col overflow-scroll">
             <div className="flex items-center p-4">
               <div className="flex items-center gap-4 text-sm">
                 <Avatar>
@@ -107,7 +107,7 @@ const ThreadDisplay = () => {
 
             <Separator />
 
-            <div className="flex max-h-[calc(100vh-500px)] flex-col overflow-scroll">
+            <div className="no-scrollbar flex max-h-[calc(100vh-500px)] flex-col overflow-scroll">
               <div className="flex flex-col gap-4 p-6">
                 {thread.emails.map((email) => {
                   return <EmailDisplay key={email.id} email={email} />;
