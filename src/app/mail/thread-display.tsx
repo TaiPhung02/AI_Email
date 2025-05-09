@@ -15,6 +15,8 @@ import useThreads from "@/hooks/use-threads";
 import { Archive, ArchiveX, Clock, MoreVertical, Trash2 } from "lucide-react";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { format } from "date-fns";
+import EmailDisplay from "./email-display";
 
 const ThreadDisplay = () => {
   const { threadId, threads } = useThreads();
@@ -88,13 +90,31 @@ const ThreadDisplay = () => {
                     </div>
 
                     <div className="line-clamp-1 text-xs">
-                      <span className="font-medium">Reply-To:</span>
+                      <span className="font-medium">Reply-To: {""}</span>
                       {thread.emails[0]?.from?.address}
                     </div>
                   </div>
                 </div>
               </div>
+
+              {thread.emails[0]?.sentAt && (
+                <div className="text-muted-foreground ml-auto text-xs">
+                  {format(new Date(thread.emails[0].sentAt), "PPpp")}
+                </div>
+              )}
             </div>
+            <Separator />
+            <div className="flex max-h-[calc(100vh-500px)] flex-col overflow-scroll">
+              <div className="flex flex-col gap-4 p-6">
+                {thread.emails.map((email) => {
+                  return <EmailDisplay key={email.id} email={email} />;
+                })}
+              </div>
+            </div>
+            <div className="flex-1"></div>
+            <Separator className="ml-auto" />
+            {/* Reply Box */}
+            Reply Box
           </div>
         </>
       ) : (
