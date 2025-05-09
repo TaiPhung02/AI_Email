@@ -5,6 +5,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Text } from "@tiptap/extension-text";
 import EditorMenuBar from "./editor-menubar";
+import { Separator } from "@/components/ui/separator";
 
 type Props = {};
 
@@ -36,7 +37,9 @@ const EmailEditor = (props: Props) => {
 
   return (
     <div>
-      <EditorMenuBar editor={editor} />
+      <div className="flex border-b p-4 py-2">
+        <EditorMenuBar editor={editor} />
+      </div>
 
       <div className="prose w-full px-4">
         <EditorContent
@@ -45,6 +48,10 @@ const EmailEditor = (props: Props) => {
           placeholder="Write your email here..."
         />
       </div>
+
+      <Separator />
+
+      <div className="flex items-center justify-between px-4 py-3"></div>
     </div>
   );
 };
