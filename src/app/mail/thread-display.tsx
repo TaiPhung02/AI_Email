@@ -17,6 +17,7 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { format } from "date-fns";
 import EmailDisplay from "./email-display";
+import ReplyBox from "./reply-box";
 
 const ThreadDisplay = () => {
   const { threadId, threads } = useThreads();
@@ -103,7 +104,9 @@ const ThreadDisplay = () => {
                 </div>
               )}
             </div>
+
             <Separator />
+
             <div className="flex max-h-[calc(100vh-500px)] flex-col overflow-scroll">
               <div className="flex flex-col gap-4 p-6">
                 {thread.emails.map((email) => {
@@ -112,9 +115,10 @@ const ThreadDisplay = () => {
               </div>
             </div>
             <div className="flex-1"></div>
+
             <Separator className="ml-auto" />
-            {/* Reply Box */}
-            Reply Box
+
+            <ReplyBox />
           </div>
         </>
       ) : (
