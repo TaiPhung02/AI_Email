@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import TagInput from "./tag-input";
 import { Input } from "@/components/ui/input";
 import AIComposeButton from "./ai-compose-button";
+import { generate } from "./action-openrouter";
+import { readStreamableValue } from "ai/rsc";
 
 type Props = {
   subject: string;
@@ -45,14 +47,23 @@ const EmailEditor = ({
   const [expanded, setExpanded] = React.useState(
     defaultToolBarExpanded ?? false,
   );
+  const [token, setToken] = React.useState<string>("");
 
-  const [generation, setGeneration] = React.useState("");
+  const aiGenerate = async (value: string) => {
+    console.log("value", value);
+    const { output } = await generate(value);
+    for await (const token of readStreamableValue(output)) {
+      if (token) {
+        setToken(token);
+      }
+    }
+  };
 
   const CustomText = Text.extend({
     addKeyboardShortcuts() {
       return {
-        "Meta-j": () => {
-          console.log("Meta-j");
+        "Mod-b": () => {
+          aiGenerate(this.editor.getText());
           return true;
         },
       };
@@ -66,6 +77,14 @@ const EmailEditor = ({
       setValue(editor.getHTML());
     },
   });
+
+  React.useEffect(() => {
+    editor?.commands?.insertContent(token);
+  }, [editor, token]);
+
+  const onGenerate = (token: string) => {
+    editor?.commands.insertContent(token);
+  };
 
   if (!editor) {
     return null;
@@ -117,7 +136,7 @@ const EmailEditor = ({
 
         <AIComposeButton
           isComposing={defaultToolBarExpanded}
-          onGenerate={setGeneration}
+          onGenerate={onGenerate}
         />
       </div>
 
@@ -135,7 +154,7 @@ const EmailEditor = ({
         <span className="text-sm">
           Tip: Press{" "}
           <kbd className="rounded-lg border border-gray-200 bg-gray-100 px-2 py-1.5 text-xs font-semibold text-gray-800">
-            Ctrl + J
+            Ctrl + B
           </kbd>{" "}
           for AI autocomplete
         </span>
