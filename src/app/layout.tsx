@@ -14,6 +14,7 @@ import {
 } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import KBar from "@/components/kbar";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "AI Email",
@@ -40,7 +41,10 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <TRPCReactProvider>
-              <KBar>{children}</KBar>
+              <KBar>
+                {children}
+                <Toaster />
+              </KBar>
             </TRPCReactProvider>
           </ThemeProvider>
         </body>
