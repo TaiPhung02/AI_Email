@@ -1,11 +1,9 @@
-import { db } from "./server/db";
+import { Account } from "./lib/account";
 
-await db.user.create({
-  data: {
-    emailAddress: "test@gmail.com",
-    firstName: "Test",
-    lastName: "User",
-  },
-});
-
-console.log("Done");
+const acc = new Account("KFBCQr54JrbqL-IixHLLU90xCQc6_N02pvDwxeUjbSA");
+// console.log(
+//   await acc.getUpdatedEmails({
+//     deltaToken: "H4sIAAAAAAAA_2NgZmBkAAPGw4oMLWCW4AUpBpaMktwcALuhXhgdAAAA",
+//   }),
+// );
+await acc.syncEmails();
