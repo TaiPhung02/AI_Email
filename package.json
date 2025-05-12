@@ -19,7 +19,8 @@
     "preview": "next build && next start",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "delete:account": "tsx scripts/deleteAccount.ts"
+    "delete:account": "tsx scripts/deleteAccount.ts",
+    "run:playground": "tsx src/playground.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.3.22",
