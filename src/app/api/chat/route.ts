@@ -1,76 +1,65 @@
-// /api/chat
-
-import { Configuration, OpenAIApi } from "openai-edge";
-import { Message, OpenAIStream, StreamingTextResponse } from "ai";
+import { streamText, type Message, type LanguageModelV1 } from "ai";
+import { openrouter } from "@openrouter/ai-sdk-provider";
 import { auth } from "@clerk/nextjs/server";
 import { OramaClient } from "@/lib/orama";
 
-const openai = new OpenAIApi(
-  new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-  }),
-);
+// Không cần gọi openrouter.use() vì provider đã tự động đọc từ .env
 
 export async function POST(req: Request) {
   try {
     const { userId } = await auth();
-
     if (!userId) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    const { accountId, messages } = await req.json();
+    const { accountId, messages }: { accountId: string; messages: Message[] } =
+      await req.json();
+
     const orama = new OramaClient(accountId);
     await orama.initialize();
 
-    const lastMessage = messages[messages.length - 1];
-    console.log("lastMessage", lastMessage);
+    if (!messages || messages.length === 0) {
+      return new Response("No messages provided", { status: 400 });
+    }
+
+    const lastMessage = messages[messages.length - 1]!;
+    console.log("📩 lastMessage:", lastMessage);
+
     const context = await orama.vectorSearch({ term: lastMessage.content });
-    console.log(context.hits.length + " hits found");
+    console.log(`🔍 Found ${context.hits.length} relevant results.`);
 
-    const prompt = {
-      role: "system",
-      content: `You are an AI email assistant embedded in an email client app. Your purpose is to help the user compose emails by answering questions, providing suggestions, and offering relevant information based on the context of their previous emails.
-      THE TIME NOW IS ${new Date().toLocaleString()}
+    const systemPrompt = `
+You are an AI email assistant embedded in an email client app. Your purpose is to help the user compose emails by answering questions, providing suggestions, and offering relevant information based on the context of their previous emails.
+THE TIME NOW IS ${new Date().toLocaleString()}
 
-      
-      START CONTEXT BLOCK
-      ${context.hits.map((hit) => JSON.stringify(hit.document)).join("\n")}
-      END OF CONTEXT BLOCK
+START CONTEXT BLOCK
+${context.hits.map((hit) => JSON.stringify(hit.document)).join("\n")}
+END OF CONTEXT BLOCK
 
-      When responding, please keep in mind:
-      - Be helpful, clever, and articulate.
-      - Rely on the provided email context to inform your responses.
-      - If the context does not contain enough information to answer a question, politely say you don't have enough information.
-      - Avoid apologizing for previous responses. Instead, indicate that you have updated your knowledge based on new information.
-      - Do not invent or speculate about anything that is not directly supported by the email context.
-      - Keep your responses concise and relevant to the user's questions or the email being composed.`,
-    };
+When responding:
+- Be helpful, clever, and articulate.
+- Use the provided email context.
+- If info is missing, say you don't have enough context.
+- Don't make things up or speculate.
+- Be concise and relevant.
+`.trim();
 
-    const response = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
+    const result = await streamText({
+      model: process.env.OPENROUTER_MODEL as unknown as LanguageModelV1,
       messages: [
-        prompt,
-        ...messages.filter((message: Message) => message.role === "user"),
+        {
+          role: "system",
+          content: systemPrompt,
+        },
+        ...messages.filter((m) => m.role === "user"),
       ],
-      stream: true,
-    });
-    const stream = OpenAIStream(response, {
-      onStart: async () => {
-        console.log("stream started");
-      },
-      onCompletion: async () => {
-        console.log("stream completed");
-      },
     });
 
-    return new StreamingTextResponse(stream);
+    console.log("✅ streamText result (raw):", result);
 
-    return new Response("OK", {
-      status: 200,
-    });
+    return result.toDataStreamResponse();
   } catch (error) {
-    console.log("error", error);
+    console.error("❌ Error in /api/chat:", error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }

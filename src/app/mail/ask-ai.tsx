@@ -4,7 +4,7 @@ import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Send, SparkleIcon } from "lucide-react";
-import { useChat } from "ai/react";
+import { useChat } from "@ai-sdk/react";
 import useThreads from "@/hooks/use-threads";
 
 type Props = {
@@ -27,6 +27,8 @@ const AskAI = ({ isCollapsed }: Props) => {
   if (isCollapsed) {
     return null;
   }
+
+  console.log("Messages:", messages);
 
   return (
     <div className="mb-14 p-4">
@@ -87,11 +89,11 @@ const AskAI = ({ isCollapsed }: Props) => {
                 <span
                   className="rounded-md bg-gray-800 px-2 py-1 text-xs text-gray-200"
                   onClick={() => {
-                    handleInputChange({
-                      target: {
-                        value: "What can I ask?",
-                      },
-                    });
+                    const event = {
+                      target: document.createElement("input"),
+                    } as React.ChangeEvent<HTMLInputElement>;
+                    event.target.value = "What can I ask?";
+                    handleInputChange(event);
                   }}
                 >
                   What can I ask?
@@ -100,11 +102,11 @@ const AskAI = ({ isCollapsed }: Props) => {
                 <span
                   className="rounded-md bg-gray-800 px-2 py-1 text-xs text-gray-200"
                   onClick={() => {
-                    handleInputChange({
-                      target: {
-                        value: "When does my movie start?",
-                      },
-                    });
+                    const event = {
+                      target: document.createElement("input"),
+                    } as React.ChangeEvent<HTMLInputElement>;
+                    event.target.value = "When does my movie start?";
+                    handleInputChange(event);
                   }}
                 >
                   When does my movie start?
@@ -113,11 +115,11 @@ const AskAI = ({ isCollapsed }: Props) => {
                 <span
                   className="rounded-md bg-gray-800 px-2 py-1 text-xs text-gray-200"
                   onClick={() => {
-                    handleInputChange({
-                      target: {
-                        value: "What is my recruitment information?",
-                      },
-                    });
+                    const event = {
+                      target: document.createElement("input"),
+                    } as React.ChangeEvent<HTMLInputElement>;
+                    event.target.value = "What is my recruitment information?";
+                    handleInputChange(event);
                   }}
                 >
                   What is my recruitment information?
