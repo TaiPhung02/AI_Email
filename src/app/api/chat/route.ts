@@ -1,9 +1,12 @@
 import { streamText, type Message, type LanguageModelV1 } from "ai";
-import { openrouter } from "@openrouter/ai-sdk-provider";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider"; // Tạo instance openrouter
 import { auth } from "@clerk/nextjs/server";
 import { OramaClient } from "@/lib/orama";
 
-// Không cần gọi openrouter.use() vì provider đã tự động đọc từ .env
+// Tạo instance openrouter
+const openrouter = createOpenRouter({
+  apiKey: process.env.OPENROUTER_API_KEY!,
+});
 
 export async function POST(req: Request) {
   try {
@@ -44,8 +47,9 @@ When responding:
 - Be concise and relevant.
 `.trim();
 
+    // Sử dụng openrouter cho streamText
     const result = await streamText({
-      model: process.env.OPENROUTER_MODEL as unknown as LanguageModelV1,
+      model: openrouter(process.env.OPENROUTER_MODEL!), // Gọi model từ openrouter
       messages: [
         {
           role: "system",
