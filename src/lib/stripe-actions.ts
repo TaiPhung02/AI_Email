@@ -22,7 +22,7 @@ export async function createCheckoutSession() {
     ],
     mode: "subscription",
     success_url: `${process.env.NEXT_PUBLIC_URL}/mail`,
-    cancel_url: `${process.env.NEXT_PUBLIC_URL}/pricing`,
+    cancel_url: `${process.env.NEXT_PUBLIC_URL}/mail`,
     client_reference_id: userId.toString(),
   });
 
@@ -42,7 +42,7 @@ export async function createBillingPortalSession() {
   }
   const session = await stripe.billingPortal.sessions.create({
     customer: subscription.customerId,
-    return_url: `${process.env.NEXT_PUBLIC_URL}/pricing`,
+    return_url: `${process.env.NEXT_PUBLIC_URL}/mail`,
   });
   redirect(session.url!);
 }

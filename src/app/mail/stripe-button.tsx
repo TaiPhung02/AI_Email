@@ -12,10 +12,11 @@ const StripeButton = () => {
   const [isSubscribed, setIsSubscribed] = React.useState(false);
 
   React.useEffect(() => {
-    async () => {
+    (async () => {
       const subscriptionStatus = await getSubscriptionStatus();
+      console.log("subscriptionStatus", subscriptionStatus);
       setIsSubscribed(subscriptionStatus);
-    };
+    })();
   }, []);
 
   const handleClick = async () => {
