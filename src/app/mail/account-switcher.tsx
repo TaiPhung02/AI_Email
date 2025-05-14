@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { Plus } from "lucide-react";
 import React from "react";
+import { toast } from "sonner";
 import { useLocalStorage } from "usehooks-ts";
 
 type Props = {
@@ -58,8 +59,16 @@ const AccountSwitcher = ({ isCollapsed }: Props) => {
 
         <div
           onClick={async () => {
-            const authUrl = await getAurinkoAuthUrl("Google");
-            window.location.href = authUrl;
+            try {
+              const authUrl = await getAurinkoAuthUrl("Google");
+              window.location.href = authUrl;
+            } catch (error) {
+              if (error instanceof Error) {
+                toast.error(error.message);
+              } else {
+                toast.error("An unknown error occurred");
+              }
+            }
           }}
           className="focus:bg-accent relative flex w-full cursor-pointer items-center rounded-sm py-1.5 pr-8 pl-2 text-sm outline-none hover:bg-gray-50"
         >

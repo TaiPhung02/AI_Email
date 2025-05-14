@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Send, SparkleIcon } from "lucide-react";
 import { useChat } from "@ai-sdk/react";
 import useThreads from "@/hooks/use-threads";
+import PremiunBanner from "./premium-banner";
 
 type Props = {
   isCollapsed: boolean;
@@ -32,6 +33,10 @@ const AskAI = ({ isCollapsed }: Props) => {
 
   return (
     <div className="mb-14 p-4">
+      <PremiunBanner />
+
+      <div className="h-4"></div>
+
       <motion.div className="flex flex-1 flex-col items-end rounded-lg bg-gray-100 p-4 shadow-inner dark:bg-gray-900">
         <div
           className="no-scrollbar flex max-h-[50vh] w-full flex-col gap-2 overflow-y-scroll"
