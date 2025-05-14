@@ -30,6 +30,10 @@ const LandingPage = async () => {
         </p>
         <div className="space-x-4">
           <LinkAccountButton />
+
+          <Link href="/mail">
+            <Button variant="outline">Mail</Button>
+          </Link>
         </div>
         <div className="mx-auto mt-12 max-w-5xl">
           <h2 className="mb-4 text-center text-2xl font-semibold">
