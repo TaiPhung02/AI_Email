@@ -33,23 +33,21 @@ const Mail = ({
     <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
         direction="horizontal"
-        onLayout={(sizes: number[]) => {
-          console.log(sizes);
-        }}
+        onLayout={(sizes: number[]) => {}}
         className="h-full min-h-screen items-stretch"
       >
         <ResizablePanel
           defaultSize={defaultLayout[0]}
-          collapsedSize={navCollapsedSize}
-          collapsible={true}
-          minSize={15}
+          // collapsedSize={navCollapsedSize}
+          collapsible={false}
+          minSize={20}
           maxSize={40}
-          onCollapse={() => {
-            setIsCollapsed(true);
-          }}
-          onResize={() => {
-            setIsCollapsed(false);
-          }}
+          // onCollapse={() => {
+          //   setIsCollapsed(true);
+          // }}
+          // onResize={() => {
+          //   setIsCollapsed(false);
+          // }}
           className={cn(
             isCollapsed &&
               "min-w-[50px] transition-all duration-300 ease-in-out",
