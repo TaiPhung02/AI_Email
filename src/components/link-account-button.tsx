@@ -12,7 +12,7 @@ const LinkAccountButton = () => {
         window.location.href = authUrl;
       }}
     >
-      Link Account
+      Get Started
     </Button>
   );
 };
