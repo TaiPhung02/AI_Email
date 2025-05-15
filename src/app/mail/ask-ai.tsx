@@ -32,7 +32,7 @@ const AskAI = ({ isCollapsed }: Props) => {
   console.log("Messages:", messages);
 
   return (
-    <div className="mb-14 p-4">
+    <div className="p-4">
       <PremiunBanner />
 
       <div className="h-4"></div>
@@ -136,7 +136,7 @@ const AskAI = ({ isCollapsed }: Props) => {
           <form className="flex w-full" onSubmit={handleSubmit}>
             <input
               type="text"
-              className="relative h-9 flex-grow rounded-full border border-gray-200 bg-white px-3 py-1 text-[15px] outline-none placeholder:text-[13px]"
+              className="relative h-9 min-w-0 flex-1 flex-grow rounded-full border border-gray-200 bg-white px-3 py-1 text-[15px] outline-none placeholder:text-[13px] dark:bg-gray-800 dark:text-gray-100"
               placeholder="Ask AI anything about your emails"
               value={input}
               onChange={handleInputChange}

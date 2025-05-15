@@ -132,12 +132,12 @@ const EmailEditor = ({
             <span className="font-medium text-green-600">Draft </span>
             <span className="font-medium">to {to.join(", ")}</span>
           </div>
-        </div>
 
-        <AIComposeButton
-          isComposing={defaultToolBarExpanded}
-          onGenerate={onGenerate}
-        />
+          <AIComposeButton
+            isComposing={defaultToolBarExpanded}
+            onGenerate={onGenerate}
+          />
+        </div>
       </div>
 
       <div className="prose w-full px-4">

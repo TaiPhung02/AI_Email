@@ -117,13 +117,14 @@ const ThreadDisplay = () => {
 
                 <Separator />
 
-                <div className="no-scrollbar flex max-h-[calc(100vh-500px)] flex-col overflow-scroll">
+                <div className="no-scrollbar flex max-h-[calc(100vh-350px)] flex-col overflow-scroll">
                   <div className="flex flex-col gap-4 p-6">
                     {thread.emails.map((email) => {
                       return <EmailDisplay key={email.id} email={email} />;
                     })}
                   </div>
                 </div>
+
                 <div className="flex-1"></div>
 
                 <Separator className="ml-auto" />

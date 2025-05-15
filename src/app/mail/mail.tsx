@@ -16,6 +16,9 @@ import ThreadList from "./thread-list";
 import ThreadDisplay from "./thread-display";
 import SearchBar from "./search-bar";
 import AskAI from "./ask-ai";
+import { UserButton } from "@clerk/nextjs";
+import { ThemeToggle } from "@/components/theme-toggle";
+import ComposeButton from "./compose-button";
 
 type Props = {
   defaultLayout: number[] | undefined;
@@ -73,6 +76,12 @@ const Mail = ({
 
             {/* AI */}
             <AskAI isCollapsed={isCollapsed} />
+
+            <div className="flex items-center gap-2 p-4">
+              <UserButton />
+              <ThemeToggle />
+              <ComposeButton />
+            </div>
           </div>
         </ResizablePanel>
 
